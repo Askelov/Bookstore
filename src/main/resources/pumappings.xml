@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE entity-mappings [
+        <!ELEMENT entity-mappings (entity)*>
+        <!ATTLIST entity-mappings
+                xmlns CDATA #REQUIRED
+                version CDATA #REQUIRED>
+        <!ELEMENT entity (table|attributes)*>
+        <!ATTLIST entity
+                class CDATA #REQUIRED>
+        <!ELEMENT table (#PCDATA)>
+        <!ATTLIST table
+                catalog CDATA #REQUIRED
+                name CDATA #REQUIRED
+                schema CDATA #REQUIRED>
+        <!ELEMENT attributes (id|basic|many-to-many)*>
+        <!ELEMENT id (column)*>
+        <!ATTLIST id
+                name CDATA #REQUIRED>
+        <!ELEMENT column (#PCDATA)>
+        <!ATTLIST column
+                length CDATA #IMPLIED
+                name CDATA #REQUIRED
+                nullable CDATA #IMPLIED
+                precision CDATA #IMPLIED>
+        <!ELEMENT basic (column)*>
+        <!ATTLIST basic
+                name CDATA #REQUIRED>
+        <!ELEMENT many-to-many (join-table)*>
+        <!ATTLIST many-to-many
+                mapped-by CDATA #IMPLIED
+                name CDATA #REQUIRED
+                target-entity CDATA #REQUIRED>
+        <!ELEMENT join-table (join-column|inverse-join-column)*>
+        <!ATTLIST join-table
+                name CDATA #REQUIRED
+                schema CDATA #REQUIRED
+                catalog CDATA #REQUIRED>
+        <!ELEMENT join-column (#PCDATA)>
+        <!ATTLIST join-column
+                name CDATA #REQUIRED
+                referenced-column-name CDATA #REQUIRED>
+        <!ELEMENT inverse-join-column (#PCDATA)>
+        <!ATTLIST inverse-join-column
+                name CDATA #REQUIRED
+                referenced-column-name CDATA #REQUIRED>
+        ]>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        version="2.0">
+
+    <entity class="org.olivebh.bookstore.model.Author">
+        <table name="author" schema="bookstore" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="name">
+                <column name="name" nullable="false" length="100"/>
+            </basic>
+            <many-to-many name="books" target-entity="org.olivebh.bookstore.model.Book">
+                <join-table name="book_author_relation" schema="bookstore" catalog="">
+                    <join-column name="author_id" referenced-column-name="id"/>
+                    <inverse-join-column name="book_id" referenced-column-name="id"/>
+                </join-table>
+            </many-to-many>
+        </attributes>
+    </entity>
+    <entity class="org.olivebh.bookstore.model.Book">
+        <table name="book" schema="bookstore" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="title">
+                <column name="title" nullable="false" length="45"/>
+            </basic>
+            <basic name="genre">
+                <column name="genre" nullable="false" length="45"/>
+            </basic>
+            <many-to-many name="authors" mapped-by="books" target-entity="org.olivebh.bookstore.model.Author"/>
+        </attributes>
+    </entity>
+    <entity class="org.olivebh.bookstore.model.BookAuthorRelation">
+        <table name="book_author_relation" schema="bookstore" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="authorId">
+                <column name="author_id" precision="11"/>
+            </basic>
+            <basic name="bookId">
+                <column name="book_id" precision="11"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity class="org.olivebh.bookstore.model.Page">
+        <table name="page" schema="bookstore" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="ordinalNumber">
+                <column name="ordinal_number" nullable="false" precision="11"/>
+            </basic>
+            <basic name="text">
+                <column name="text" nullable="false" length="5000"/>
+            </basic>
+            <basic name="bookId">
+                <column name="book_id" precision="11"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity class="org.olivebh.bookstore.model.Author">
+        <table name="author" schema="bookstore" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="name">
+                <column name="name" nullable="false"/>
+            </basic>
+            <many-to-many name="books" target-entity="org.olivebh.bookstore.model.Book">
+                <join-table name="book_author_relation" schema="bookstore" catalog="">
+                    <join-column name="author_id" nullable="false" referenced-column-name="id"/>
+                    <inverse-join-column name="book_id" nullable="false" referenced-column-name="id"/>
+                </join-table>
+            </many-to-many>
+        </attributes>
+    </entity>
+    <entity class="org.olivebh.bookstore.model.Book">
+        <table name="book" schema="bookstore" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="genre">
+                <column name="genre" nullable="false"/>
+            </basic>
+            <basic name="title">
+                <column name="title" nullable="false"/>
+            </basic>
+            <many-to-many name="authors" mapped-by="books" target-entity="org.olivebh.bookstore.model.Author"/>
+        </attributes>
+    </entity>
+    <entity class="org.olivebh.bookstore.model.BookAuthorRelation">
+        <table name="book_author_relation" schema="bookstore" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="authorId">
+                <column name="author_id" nullable="false" precision="11"/>
+            </basic>
+            <basic name="bookId">
+                <column name="book_id" nullable="false" precision="11"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity class="org.olivebh.bookstore.model.Page">
+        <table name="page" schema="bookstore" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="bookId">
+                <column name="book_id" nullable="false" precision="11"/>
+            </basic>
+            <basic name="ordinalNumber">
+                <column name="ordinal_number" nullable="false" precision="11"/>
+            </basic>
+            <basic name="text">
+                <column name="text" nullable="false"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>

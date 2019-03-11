@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="NewPersistenceUnit">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <mapping-file>mappings.xml</mapping-file>
+        <class>org.olivebh.bookstore.model.AuthorEntity</class>
+        <class>org.olivebh.bookstore.model.BookEntity</class>
+        <class>org.olivebh.bookstore.model.BookAuthorRelationEntity</class>
+        <class>org.olivebh.bookstore.model.PageEntity</class>
+        <class>org.olivebh.bookstore.model.Author</class>
+        <class>org.olivebh.bookstore.model.Book</class>
+        <class>org.olivebh.bookstore.model.BookAuthorRelation</class>
+        <class>org.olivebh.bookstore.model.Page</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/bookstore"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.username" value=""/>
+            <property name="hibernate.connection.password" value=""/>
+            <property name="hibernate.archive.autodetection" value="class"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
+    <persistence-unit name="PUnit">
+        <mapping-file>pumappings.xml</mapping-file>
+        <class>org.olivebh.bookstore.model.Author</class>
+        <class>org.olivebh.bookstore.model.Book</class>
+        <class>org.olivebh.bookstore.model.BookAuthorRelation</class>
+        <class>org.olivebh.bookstore.model.Page</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/bookstore"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+        </properties>
+    </persistence-unit>
+</persistence>
