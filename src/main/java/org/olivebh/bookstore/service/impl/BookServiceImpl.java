@@ -1,10 +1,11 @@
-package org.olivebh.bookstore.service;
+package org.olivebh.bookstore.service.impl;
 
 import org.olivebh.bookstore.exception.EntityNotFound;
 import org.olivebh.bookstore.model.BookEntity;
 import org.olivebh.bookstore.model.dto.BookDto;
 import org.olivebh.bookstore.model.inputEntities.BookInput;
 import org.olivebh.bookstore.repository.IBookRepository;
+import org.olivebh.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

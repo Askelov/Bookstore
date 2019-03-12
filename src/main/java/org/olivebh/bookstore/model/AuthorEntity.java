@@ -9,17 +9,20 @@ import java.util.Objects;
 @Entity
 @Table(name = "author", schema = "bookstore", catalog = "")
 public class AuthorEntity {
+
     private Long id;
     private String name;
     private List<BookEntity> books;
 
+    //region constructors
     public AuthorEntity(String name) {
         this.name = name;
     }
 
     public AuthorEntity() {
     }
-
+    //endregion
+    //region getters and setters with annotation
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +44,17 @@ public class AuthorEntity {
         this.name = name;
     }
 
+    @JsonBackReference
+    @ManyToMany(mappedBy="authors")
+    public List<BookEntity> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<BookEntity> books) {
+        this.books = books;
+    }
+    //endregion
+    //region hash and equal
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,14 +68,5 @@ public class AuthorEntity {
     public int hashCode() {
         return Objects.hash(id, name);
     }
-
-   @JsonBackReference
-   @ManyToMany(mappedBy="authors")
-    public List<BookEntity> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<BookEntity> books) {
-        this.books = books;
-    }
+    //endregion
 }

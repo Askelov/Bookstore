@@ -1,10 +1,11 @@
-package org.olivebh.bookstore.service;
+package org.olivebh.bookstore.service.impl;
 
 import org.olivebh.bookstore.exception.EntityNotFound;
 import org.olivebh.bookstore.model.PageEntity;
 import org.olivebh.bookstore.model.dto.PageDto;
 import org.olivebh.bookstore.model.inputEntities.PageInput;
 import org.olivebh.bookstore.repository.IPageRepository;
+import org.olivebh.bookstore.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,6 +72,7 @@ public class PageServiceImpl implements PageService {
     public void deletePages(){
         pageRepository.deleteAll();
     }
+
 
 
 }

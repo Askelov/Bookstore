@@ -14,7 +14,5 @@ import java.util.Optional;
 
 @Repository
 public interface IPageRepository extends JpaRepository<PageEntity, Long> {
-    public Optional<PageEntity> getPageEntityById(Long id);
-
-
+     Optional<PageEntity> getPageEntityById(Long id);
 }

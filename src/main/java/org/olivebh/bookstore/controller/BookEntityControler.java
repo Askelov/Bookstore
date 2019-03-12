@@ -5,24 +5,27 @@ import org.olivebh.bookstore.model.BookEntity;
 import org.olivebh.bookstore.model.dto.BookDto;
 import org.olivebh.bookstore.model.inputEntities.BookInput;
 import org.olivebh.bookstore.service.BookService;
+import org.olivebh.bookstore.service.ValidationService;
 import org.olivebh.bookstore.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.olivebh.bookstore.util.Utils.checkValidNumber;
+
 
 @RestController
 @RequestMapping(path = Constant.ROOT_BOOK)
 public class BookEntityControler {
 
-    //    @Autowired
+
     private BookService bookService;
+    private ValidationService validationService;
 
     @Autowired
-    public BookEntityControler(BookService bookService) {
+    public BookEntityControler(BookService bookService, ValidationService validationService) {
         this.bookService = bookService;
+        this.validationService = validationService;
     }
 
     @PostMapping
@@ -32,7 +35,7 @@ public class BookEntityControler {
 
     @GetMapping(path = "/{id}")
     public BookEntity getPageById(@PathVariable("id") String id){
-        Long validId = checkValidNumber(id);
+        Long validId = validationService.checkValidNumber(id);
         return bookService.findById(validId);
     }
 
@@ -43,7 +46,7 @@ public class BookEntityControler {
 
     @PutMapping(path="/{id}")
     public BookEntity updatePage(@RequestBody BookInput input, @PathVariable("id") String id){
-        Long validId = checkValidNumber(id);
+        Long validId = validationService.checkValidNumber(id);
         return bookService.updateBookById(input,validId);
     }
 
@@ -54,7 +57,7 @@ public class BookEntityControler {
 
     @DeleteMapping(path = "/{id}")
     public void deleteBooks(@PathVariable("id") String id){
-        Long validId = checkValidNumber(id);
+        Long validId = validationService.checkValidNumber(id);
         bookService.deleteBook(validId);
     }
 

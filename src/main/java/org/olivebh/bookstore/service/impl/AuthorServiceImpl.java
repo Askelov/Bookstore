@@ -1,10 +1,11 @@
-package org.olivebh.bookstore.service;
+package org.olivebh.bookstore.service.impl;
 
 import org.olivebh.bookstore.exception.EntityNotFound;
 import org.olivebh.bookstore.model.AuthorEntity;
 import org.olivebh.bookstore.model.dto.AuthorDto;
 import org.olivebh.bookstore.model.inputEntities.AuthorInput;
 import org.olivebh.bookstore.repository.IAuthorRepository;
+import org.olivebh.bookstore.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AuthorServiceImpl implements AuthorService{
+public class AuthorServiceImpl implements AuthorService {
 
     private IAuthorRepository authorRepository;
 
