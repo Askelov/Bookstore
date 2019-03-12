@@ -10,10 +10,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IPageRepository extends JpaRepository<PageEntity, Long> {
-    public PageEntity getPageEntityById(Long id);
+    public Optional<PageEntity> getPageEntityById(Long id);
 
 
 }

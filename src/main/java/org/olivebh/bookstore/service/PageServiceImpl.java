@@ -1,5 +1,6 @@
 package org.olivebh.bookstore.service;
 
+import org.olivebh.bookstore.exception.EntityNotFound;
 import org.olivebh.bookstore.model.PageEntity;
 import org.olivebh.bookstore.model.dto.PageDto;
 import org.olivebh.bookstore.model.inputEntities.PageInput;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PageServiceImpl implements PageService {
@@ -28,7 +30,12 @@ public class PageServiceImpl implements PageService {
 
     @Override
     public PageDto getPageById(Long id){
-        return new PageDto(pageRepository.getPageEntityById(id));
+            Optional<PageEntity> pageOptional=pageRepository.getPageEntityById(id);
+            if(pageOptional.isPresent()){
+                return new PageDto(pageOptional.get());
+            } else {
+                throw new EntityNotFound("Page not found (id:"+id+")");
+            }
     }
 
     @Override
@@ -45,16 +52,19 @@ public class PageServiceImpl implements PageService {
 
     @Override
     public PageDto updatePageById(PageInput input, Long id){
-        PageEntity that=pageRepository.getPageEntityById(id);
-        that.setText(input.getText());
-        that.setOrdinalNumber(input.getOrdinalNumber());
-        return new PageDto (pageRepository.save(that));
+        Optional<PageEntity> pageOptional=pageRepository.getPageEntityById(id);
+        if(pageOptional.isPresent()){
+            pageOptional.get().setText(input.getText());
+            pageOptional.get().setOrdinalNumber(input.getOrdinalNumber());
+            return new PageDto (pageRepository.save(pageOptional.get()));
+        } else {
+            throw new EntityNotFound("Page not found (id:"+id+")");
+        }
     }
 
     @Override
     public void deletePage(Long id){
-        pageRepository.delete(pageRepository.getPageEntityById(id));
-
+        pageRepository.delete(getPageById(id).toPojo());
     }
 
     @Override

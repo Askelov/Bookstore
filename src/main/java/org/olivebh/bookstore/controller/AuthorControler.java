@@ -1,6 +1,6 @@
 package org.olivebh.bookstore.controller;
 
-import org.olivebh.bookstore.constant.CONSTANT;
+
 import org.olivebh.bookstore.model.AuthorEntity;
 import org.olivebh.bookstore.model.BookEntity;
 import org.olivebh.bookstore.model.PageEntity;
@@ -9,14 +9,17 @@ import org.olivebh.bookstore.model.dto.PageDto;
 import org.olivebh.bookstore.model.inputEntities.AuthorInput;
 import org.olivebh.bookstore.model.inputEntities.PageInput;
 import org.olivebh.bookstore.service.AuthorService;
+import org.olivebh.bookstore.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.olivebh.bookstore.util.Utils.checkValidNumber;
+
 
 @RestController
-@RequestMapping(path = CONSTANT.ROOT_AUTHOR)
+@RequestMapping(path = Constant.ROOT_AUTHOR)
 public class AuthorControler {
 
     private AuthorService authorService;
@@ -32,8 +35,9 @@ public class AuthorControler {
     }
 
     @GetMapping(path = "/{id}")
-    public AuthorEntity findByid(@PathVariable("id") Long id) {
-        return authorService.findById(id);
+    public AuthorEntity findByid(@PathVariable("id") String id) {
+        Long validId = checkValidNumber(id);
+        return authorService.findById(validId);
     }
 
     @PostMapping
@@ -42,8 +46,9 @@ public class AuthorControler {
     }
 
     @PutMapping(path="/{id}")
-    public AuthorDto updateAuthor(@RequestBody AuthorInput input, @PathVariable("id") Long id){
-        return authorService.updateAuthorById(input,id);
+    public AuthorDto updateAuthor(@RequestBody AuthorInput input, @PathVariable("id") String id){
+        Long validId = checkValidNumber(id);
+        return authorService.updateAuthorById(input,validId);
     }
     @DeleteMapping
     public void deleteAuthors(){
@@ -51,8 +56,9 @@ public class AuthorControler {
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteAuthor(@PathVariable("id") Long id){
-        authorService.deleteAuthor(id);
+    public void deleteAuthor(@PathVariable("id") String id){
+        Long validId = checkValidNumber(id);
+        authorService.deleteAuthor(validId);
     }
 
 

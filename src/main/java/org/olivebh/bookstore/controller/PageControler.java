@@ -1,27 +1,23 @@
 package org.olivebh.bookstore.controller;
 
-import org.olivebh.bookstore.constant.CONSTANT;
-import org.olivebh.bookstore.model.AuthorEntity;
-import org.olivebh.bookstore.model.BookEntity;
+
 import org.olivebh.bookstore.model.PageEntity;
-import org.olivebh.bookstore.model.dto.BookDto;
 import org.olivebh.bookstore.model.dto.PageDto;
 import org.olivebh.bookstore.model.inputEntities.PageInput;
-import org.olivebh.bookstore.service.BookService;
 import org.olivebh.bookstore.service.PageService;
+import org.olivebh.bookstore.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.jca.cci.CciOperationNotSupportedException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-import static org.olivebh.bookstore.constant.CONSTANT.ROOT_PAGE;
+import static org.olivebh.bookstore.util.Utils.checkValidNumber;
 
 @RestController
-@RequestMapping(path = CONSTANT.ROOT_PAGE)
+@RequestMapping(path = Constant.ROOT_PAGE)
 public class PageControler {
 
     private PageService pageService;
@@ -37,10 +33,10 @@ public class PageControler {
     }
 
     @GetMapping(path = "/{id}")
-    public PageDto getPageById(@PathVariable("id") Long id){
-            return pageService.getPageById(id);
-
-                }
+    public PageDto getPageById(@PathVariable("id") String id){
+        Long validId = checkValidNumber(id);
+        return pageService.getPageById(validId);
+    }
 
     @PostMapping
     public PageDto save(@RequestBody PageEntity pageEntity) {
@@ -48,19 +44,20 @@ public class PageControler {
     }
 
     @PutMapping(path="/{id}")
-    public PageDto updatePage(@RequestBody PageInput input, @PathVariable("id") Long id){
-         return pageService.updatePageById(input,id);
+    public PageDto updatePage(@RequestBody PageInput input, @PathVariable("id") String id){
+         Long validId = checkValidNumber(id);
+         return pageService.updatePageById(input,validId);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deletePage(@PathVariable("id") Long id){
-          pageService.deletePage(id);
+    public void deletePage(@PathVariable("id") String id){
+          Long validId = checkValidNumber(id);
+          pageService.deletePage(validId);
     }
 
     @DeleteMapping
     public void deletePages(){
         pageService.deletePages();
     }
-
 
 }

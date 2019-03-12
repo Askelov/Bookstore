@@ -1,5 +1,6 @@
 package org.olivebh.bookstore.service;
 
+import org.olivebh.bookstore.exception.EntityNotFound;
 import org.olivebh.bookstore.model.BookEntity;
 import org.olivebh.bookstore.model.dto.BookDto;
 import org.olivebh.bookstore.model.inputEntities.BookInput;
@@ -30,18 +31,21 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookEntity findById(Long id) {
-        return bookRepository.getBookEntityById(id);
+        Optional<BookEntity> bookEntityOptional=bookRepository.getBookEntityById(id);
+        if(bookEntityOptional.isPresent()){
+            return bookRepository.getBookEntityById(id).get();
+        }else {
+            throw new EntityNotFound("Book not found (id:"+id+")");
+         }
     }
 
     @Override
- //   @Transactional
     public BookEntity save(BookEntity bookEntity) {
-      //  BookEntity bookToSave = bookDto.toPojo();
         return bookRepository.save(bookEntity);
     }
     @Override
     public BookEntity updateBookById(BookInput input, Long id){
-        BookEntity foundBook= bookRepository.getBookEntityById(id);
+        BookEntity foundBook= findById(id);
         foundBook.setGenre(input.getGenre());
         foundBook.setTitle(input.getTitle());
         return bookRepository.save(foundBook);
@@ -54,6 +58,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteBook(Long id){
-        bookRepository.delete(bookRepository.getBookEntityById(id));
+        bookRepository.delete(findById(id));
     }
 }

@@ -1,6 +1,6 @@
-package org.olivebh.bookstore.constant;
+package org.olivebh.bookstore.util;
 
-public class CONSTANT {
+public class Constant {
     public static final String ROOT_AUTHOR = "/api/authors";
     public static final String ROOT_BOOK = "/api/books";
     public static final String ROOT_PAGE = "/api/pages";
