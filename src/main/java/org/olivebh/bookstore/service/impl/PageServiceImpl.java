@@ -52,6 +52,15 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
+    public List<PageDto> getPagesByIds(List<Long> ids){
+        ArrayList<PageDto> pages = new ArrayList<>();
+        for(Long id:ids){
+            pages.add(getPageById(id));
+        }
+      return pages;
+    }
+
+    @Override
     public PageDto updatePageById(PageInput input, Long id){
         Optional<PageEntity> pageOptional=pageRepository.getPageEntityById(id);
         if(pageOptional.isPresent()){

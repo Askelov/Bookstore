@@ -29,8 +29,8 @@ public class BookEntityControler {
     }
 
     @PostMapping
-    BookEntity save(@RequestBody BookEntity bookEntity) {
-        return bookService.save(bookEntity);
+    BookDto save(@RequestBody BookDto bookDto) {
+        return bookService.save(bookDto);
     }
 
     @GetMapping(path = "/{id}")

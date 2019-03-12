@@ -1,15 +1,17 @@
 package org.olivebh.bookstore.service.impl;
 
 import org.olivebh.bookstore.exception.EntityNotFound;
+import org.olivebh.bookstore.model.AuthorEntity;
 import org.olivebh.bookstore.model.BookEntity;
 import org.olivebh.bookstore.model.dto.BookDto;
 import org.olivebh.bookstore.model.inputEntities.BookInput;
+import org.olivebh.bookstore.repository.IAuthorRepository;
 import org.olivebh.bookstore.repository.IBookRepository;
 import org.olivebh.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,11 +19,13 @@ import java.util.Optional;
 //@Transactional(readOnly = true)
 public class BookServiceImpl implements BookService {
 
-    private IBookRepository bookRepository;
+    private final IBookRepository bookRepository;
+    private final IAuthorRepository authorRepository;
 
     @Autowired
-    public BookServiceImpl(IBookRepository bookRepository) {
+    public BookServiceImpl(IBookRepository bookRepository, IAuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
     }
 
     @Override
@@ -41,8 +45,19 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookEntity save(BookEntity bookEntity) {
-        return bookRepository.save(bookEntity);
+    public BookDto save(BookDto bookDto) {
+        /*
+       List<AuthorEntity> authors= bookDto.getAuthors();
+        for(AuthorEntity author:authors){
+           Optional<AuthorEntity> authorEntity = authorRepository.getAuthorEntityByName(author.getName());
+           if(authorEntity.isPresent()){
+               continue;
+           }else{
+               authorRepository.save(author);
+           }
+        }*/
+        return new BookDto(bookRepository.save(bookDto.toPojo()));
+
     }
     @Override
     public BookEntity updateBookById(BookInput input, Long id){
