@@ -52,7 +52,7 @@ public class AuthorServiceImplTest {
         List<AuthorEntity> authors = new ArrayList<>();
         AuthorEntity author1 = new AuthorEntity(1L, "askee");
         AuthorEntity author2 = new AuthorEntity(2L, "askee2");
-        AuthorEntity author3 = new AuthorEntity(3L, "aske33");
+        AuthorEntity author3 = new AuthorEntity(3L, "aske333");
         authors.add(author1);
         authors.add(author2);
         authors.add(author3);
