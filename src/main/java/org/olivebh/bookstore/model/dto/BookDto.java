@@ -64,7 +64,8 @@ public class BookDto {
         this.id = that.getId();
         this.title = that.getTitle();
         this.genre = that.getGenre();
-        this.authors=that.getAuthors();
+       this.authors=that.getAuthors();
+       this.pages=that.getPages();
     }
     //endregion
 
@@ -75,7 +76,7 @@ public class BookDto {
         that.setTitle(this.title);
         that.setGenre(this.genre);
         that.setAuthors(this.authors);
-        that.setPages(this.pages);
+       // that.setPages(this.pages);
         return that;
     }
     //endregion

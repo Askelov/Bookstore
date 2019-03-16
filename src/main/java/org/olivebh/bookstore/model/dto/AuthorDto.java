@@ -17,7 +17,7 @@ public class AuthorDto {
     public AuthorDto(AuthorEntity that){
         this.id=that.getId();
         this.name=that.getName();
-        this.books=that.getBooks();
+        //this.books=that.getBooks();
     }
     //endregion
     //region getters and setters

@@ -12,6 +12,8 @@ public interface PageService {
 
     PageDto getPageById(Long id);
 
+    List<PageDto> getPagesByIds(List<Long> ids);
+
     List<PageDto> getAllPages();
 
     PageDto savePage(PageEntity pageEntity);

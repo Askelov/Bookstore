@@ -10,6 +10,8 @@ public interface AuthorService {
 
     List<AuthorEntity> getAllAuthors();
 
+//    Long getIdByName(String nameAuthor);
+
     AuthorDto save(AuthorDto authorDto);
 
     AuthorEntity findById(Long id);

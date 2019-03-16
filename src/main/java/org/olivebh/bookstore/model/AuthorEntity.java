@@ -15,7 +15,8 @@ public class AuthorEntity {
     private List<BookEntity> books;
 
     //region constructors
-    public AuthorEntity(String name) {
+    public AuthorEntity(Long id,String name) {
+        this.id=id;
         this.name = name;
     }
 

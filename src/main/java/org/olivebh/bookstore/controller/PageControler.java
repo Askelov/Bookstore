@@ -41,6 +41,12 @@ public class PageControler {
         return pageService.getPageById(validId);
     }
 
+    @PostMapping(path="/ids")
+    public List<PageDto> getPagesByIds(@RequestBody List<Long> ids) {
+        return pageService.getPagesByIds(ids);
+    }
+
+
     @PostMapping
     public PageDto save(@RequestBody PageEntity pageEntity) {
         return pageService.savePage(pageEntity);

@@ -41,6 +41,16 @@ public class AuthorServiceImpl implements AuthorService {
             throw new EntityNotFound("Author not found (id:"+id+")");
         }
     }
+   /* @Override
+    public Long getIdByName(String nameAuthor){
+        List<AuthorEntity> authors=authorRepository.findAll();
+        for(AuthorEntity author:authors){
+            if(author.getName().equals(nameAuthor)){
+                return author.getId();
+            }
+        }
+        return -1L;
+    }*/
 
     @Override
     public void deleteAuthors(){
