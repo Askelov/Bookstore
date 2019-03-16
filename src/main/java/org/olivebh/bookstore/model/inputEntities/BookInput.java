@@ -5,6 +5,7 @@ public class BookInput {
     private String title;
     private String genre;
 
+
     //region construcotrs
     public BookInput(String title, String genre) {
         this.title = title;

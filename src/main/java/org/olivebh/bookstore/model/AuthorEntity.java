@@ -46,7 +46,7 @@ public class AuthorEntity {
     }
 
     @JsonBackReference
-    @ManyToMany(mappedBy="authors")
+    @ManyToMany(mappedBy="authors",cascade = CascadeType.ALL)
     public List<BookEntity> getBooks() {
         return books;
     }

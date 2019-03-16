@@ -18,6 +18,15 @@ public class ExceptionHandler {
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(EntityAlreadyExist exc) {
+        ErrorResponse error = new ErrorResponse();
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setMessage(exc.getMessage());
+        error.setTimeStamp(System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(IllegalArgumentException exc) {
         ErrorResponse error = new ErrorResponse();
         error.setStatus(HttpStatus.BAD_REQUEST.value());
@@ -25,6 +34,7 @@ public class ExceptionHandler {
         error.setTimeStamp(System.currentTimeMillis());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
     @org.springframework.web.bind.annotation.ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exc){
         ErrorResponse error = new ErrorResponse();
