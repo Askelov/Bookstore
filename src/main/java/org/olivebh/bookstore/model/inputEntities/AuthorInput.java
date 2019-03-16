@@ -16,8 +16,8 @@ public class AuthorInput {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String asim) {
+        this.name = asim;
     }
     //endregion
 }
