@@ -1,5 +1,6 @@
 package org.olivebh.bookstore.service.impl;
 
+import org.olivebh.bookstore.exception.EntityAlreadyExist;
 import org.olivebh.bookstore.exception.EntityNotFound;
 import org.olivebh.bookstore.model.AuthorEntity;
 import org.olivebh.bookstore.model.dto.AuthorDto;
@@ -29,7 +30,12 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorDto save(AuthorDto authorDto){
-        return new AuthorDto(authorRepository.save(authorDto.toPojo()));
+        Optional<AuthorEntity> authorEntityOptional=authorRepository.getAuthorEntityByName(authorDto.getName());
+        if(authorEntityOptional.isPresent()) {
+            throw new EntityAlreadyExist("Author already exist with (id:"+authorEntityOptional.get().getId()+")");
+        }else{
+            return new AuthorDto(authorRepository.save(authorDto.toPojo()));
+        }
     }
 
     @Override

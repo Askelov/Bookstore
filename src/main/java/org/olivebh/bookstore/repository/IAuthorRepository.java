@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface IAuthorRepository extends JpaRepository<AuthorEntity, Integer> {
     Optional<AuthorEntity> getAuthorEntityById(Long id);
     Optional<AuthorEntity> getAuthorEntityByName(String name);
+
 }

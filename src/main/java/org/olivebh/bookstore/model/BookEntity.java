@@ -23,6 +23,7 @@ public class BookEntity {
     private List<AuthorEntity> authors;
     private List<PageEntity> pages;
 
+
     //region constructors ?ask for lombook
     public BookEntity(){
 
@@ -77,7 +78,7 @@ public class BookEntity {
     }
 
     //@JsonManagedReference
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(name="book_author_relation",
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))

@@ -3,6 +3,7 @@ package org.olivebh.bookstore.service;
 
 import org.olivebh.bookstore.model.BookEntity;
 import org.olivebh.bookstore.model.dto.BookDto;
+import org.olivebh.bookstore.model.inputEntities.BookEntityInput;
 import org.olivebh.bookstore.model.inputEntities.BookInput;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface BookService {
 
     List<BookEntity> getAllBooks();
 
-    BookDto save(BookDto bookDto);
+    BookEntity saveBook(BookEntityInput bookEntityInput);
 
     BookEntity updateBookById(BookInput input, Long id);
 
