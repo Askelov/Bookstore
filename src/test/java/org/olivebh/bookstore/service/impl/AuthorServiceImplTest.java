@@ -1,15 +1,15 @@
 package org.olivebh.bookstore.service.impl;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
+import org.mockito.stubbing.OngoingStubbing;
+import org.olivebh.bookstore.exception.EntityAlreadyExist;
+import org.olivebh.bookstore.exception.EntityNotFound;
 import org.olivebh.bookstore.model.AuthorEntity;
 import org.olivebh.bookstore.model.dto.AuthorDto;
 import org.olivebh.bookstore.repository.IAuthorRepository;
@@ -19,7 +19,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,49 +32,51 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class AuthorServiceImplTest {
 
-    @Mock
-    IAuthorRepository authorRepository;
+    //@Mock
+    static IAuthorRepository authorRepository;
 
-    @InjectMocks
-    AuthorServiceImpl authorServiceMock;
+   @InjectMocks
+   static AuthorServiceImpl authorServiceMock;
 
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
-    @After
-    public void tearDown() throws Exception {
+    @BeforeClass
+    public static void setUp() throws Exception {
+        authorRepository = mock(IAuthorRepository.class);
+        AuthorEntity author1 = new AuthorEntity(1L, "Asim1");
+        AuthorEntity author2 = new AuthorEntity(2L, "Asim2");
+        AuthorEntity author3 = new AuthorEntity(3L, "Asim3");
+        when(authorRepository.findAll()).thenReturn(Arrays.asList(author1, author2,author3));
+        when(authorRepository.save(author1)).thenReturn(author1).thenThrow(new EntityAlreadyExist("Author already exist"));
+        when(authorRepository.getAuthorEntityById(1L)).thenReturn(Optional.of(author1));
+        when(authorRepository.getAuthorEntityById(100L)).thenThrow(new EntityNotFound("Author not found (id:"+100L+")"));
 
     }
 
     @Test
     public void getAllAuthorsTest() {
-        //When
-        List<AuthorEntity> authors = new ArrayList<>();
-        AuthorEntity author1 = new AuthorEntity(1L, "askee");
-        AuthorEntity author2 = new AuthorEntity(2L, "askee2");
-        AuthorEntity author3 = new AuthorEntity(3L, "aske333");
-        authors.add(author1);
-        authors.add(author2);
-        authors.add(author3);
-      /* when(authorRepository.findAll()).thenReturn(Stream.of(new AuthorEntity(1L,"askee"),
-               new AuthorEntity(2L,"askee2"), new AuthorEntity(3L,"askeeaaaa")).collect(Collectors.toList()));*/
-        //
-        when(authorRepository.findAll()).thenReturn(authors);
-
         List<AuthorEntity> allAuthors = authorServiceMock.getAllAuthors();
-        //Then
         assertEquals(3, allAuthors.size());
-        assertEquals("askee2", allAuthors.get(1).getName());
+        assertEquals("Asim2", allAuthors.get(1).getName());
+    }
+
+    @Test(expected=EntityAlreadyExist.class)
+    public void saveTest() {
+        AuthorEntity author1 = new AuthorEntity(1L, "Asim1");
+        AuthorDto authorDto = new AuthorDto(author1);
+       authorDto= authorServiceMock.save(authorDto);
+       assertEquals("Asim1",authorDto.getName());
+       authorDto= authorServiceMock.save(authorDto);
+    }
+
+    @Test(expected=EntityNotFound.class)
+    public void findByIdTest() {
+       assertEquals("Asim1",authorServiceMock.findById(1L).getName());
+       authorServiceMock.findById(100L);
     }
 
     @Test
-    public void save() {
-        AuthorEntity authotr = new AuthorEntity(1L, "Aske Aganovic");
-        when(authorRepository.save(authotr));
-        //AuthorDto save = authorServiceMock.save(authotr);
-        //   assertEquals(save.getName(), "aske");
-        assertEquals(new AuthorDto(new AuthorEntity(1L, "askee")), authorServiceMock.save(new AuthorDto(new AuthorEntity(1L, "askee"))));
+    public void updateAuthorByIdTest() {
+
+
+
     }
 }
