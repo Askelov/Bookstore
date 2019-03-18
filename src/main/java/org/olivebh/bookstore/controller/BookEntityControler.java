@@ -2,7 +2,6 @@ package org.olivebh.bookstore.controller;
 
 
 import org.olivebh.bookstore.model.BookEntity;
-import org.olivebh.bookstore.model.dto.BookDto;
 import org.olivebh.bookstore.model.inputEntities.BookEntityInput;
 import org.olivebh.bookstore.model.inputEntities.BookInput;
 import org.olivebh.bookstore.service.BookService;
@@ -30,7 +29,7 @@ public class BookEntityControler {
     }
    
     @PostMapping
-    BookEntity save(@RequestBody BookEntityInput bookEntityInput){
+    public BookEntity save(@RequestBody BookEntityInput bookEntityInput){
         return bookService.saveBook(bookEntityInput);
     }
 
