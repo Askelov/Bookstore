@@ -4,8 +4,8 @@ public class AuthorInput {
     private String name;
 
     //region consructors
-    public AuthorInput(String NAME) {
-        this.name = NAME;
+    public AuthorInput(String name) {
+        this.name = name;
     }
 
     public AuthorInput() {
