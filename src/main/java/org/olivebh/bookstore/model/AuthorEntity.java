@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "author", schema = "bookstore", catalog = "")
+@Table(name = "author"/*, schema = "bookstore", catalog = ""*/)
 public class AuthorEntity {
 
     private Long id;
