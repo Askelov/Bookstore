@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "page", schema = "bookstore", catalog = "")
+@Table(name = "page"/*, schema = "bookstore", catalog = ""*/)
 public class PageEntity {
 
     private Long id;

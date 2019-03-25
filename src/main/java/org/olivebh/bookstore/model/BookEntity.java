@@ -11,7 +11,7 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "book", schema = "bookstore")
+@Table(name = "book"/*, schema = "bookstore"*/)
 public class BookEntity {
 
     private Long id;
