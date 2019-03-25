@@ -28,16 +28,10 @@ import static org.junit.Assert.*;
 
 
 @DataJpaTest
-//@Commit
 @RunWith(SpringRunner.class)
-//@RunWith(MockitoJUnitRunner.class)
-//@SpringBootTest
 public class IAuthorRepositoryTest {
    @Resource
     private IAuthorRepository authorRepository;
-
-   // @PersistenceContext
-    //private EntityManager entityManager;
 
    @Test
     public void find_saved_author() {
@@ -55,14 +49,33 @@ public class IAuthorRepositoryTest {
         AuthorEntity author2 = new AuthorEntity(2L, "aske2");
         authorRepository.save(author1);
         authorRepository.save(author2);
-
         authorRepository.delete(author1);
-
         List<AuthorEntity> authors = authorRepository.findAll();
-
-
-        //Optional<Obj> = Optional.ofNullable(dao.find());
-
         assertEquals(1, authors.size());
     }
+
+    @Test
+    public void add_authors_then_delete_all(){
+        AuthorEntity author1 = new AuthorEntity(1L, "aske1");
+        AuthorEntity author2 = new AuthorEntity(2L, "aske2");
+        authorRepository.save(author1);
+        authorRepository.save(author2);
+        authorRepository.deleteAll();
+        List<AuthorEntity> authors = authorRepository.findAll();
+        assertEquals(0, authors.size());
+    }
+
+    @Test
+    public void add_author_then_update(){
+        AuthorEntity author1 = new AuthorEntity(1L, "aske1");
+        authorRepository.save(author1);
+        Optional<AuthorEntity> db =authorRepository.findById(1L);
+        if(db.isPresent()){
+            db.get().setName("UpdateName");
+        authorRepository.save(db.get());
+        db=authorRepository.findById(1L);
+        assertEquals("UpdateName", db.get().getName());
+                }
+        }
+
 }
