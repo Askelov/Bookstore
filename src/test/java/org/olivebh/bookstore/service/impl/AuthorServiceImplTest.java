@@ -1,11 +1,13 @@
 package org.olivebh.bookstore.service.impl;
 
+import javafx.application.Application;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 
 import org.mockito.junit.MockitoJUnitRunner;
 
+import org.olivebh.bookstore.BookstoreApplication;
 import org.olivebh.bookstore.exception.EntityAlreadyExist;
 import org.olivebh.bookstore.exception.EntityNotFound;
 import org.olivebh.bookstore.exception.ExceptionHandler;
@@ -13,30 +15,40 @@ import org.olivebh.bookstore.model.AuthorEntity;
 import org.olivebh.bookstore.model.dto.AuthorDto;
 import org.olivebh.bookstore.model.inputEntities.AuthorInput;
 import org.olivebh.bookstore.repository.IAuthorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import javax.xml.ws.soap.Addressing;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 
+import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//@RunWith(MockitoJUnitRunner.class)
 @RunWith(MockitoJUnitRunner.Silent.class)
 @SpringBootTest
 public class AuthorServiceImplTest {
-
-
     static IAuthorRepository authorRepository;
 
-   @InjectMocks
+    @InjectMocks
    static AuthorServiceImpl authorServiceMock;
 
     @BeforeClass
@@ -74,6 +86,7 @@ public class AuthorServiceImplTest {
     @Test(expected=EntityNotFound.class)
     public void findByIdTest() {
        assertEquals("Asim1",authorServiceMock.findById(1L).getName());
+        AuthorEntity author1 = new AuthorEntity(100L, "Asim1");
        authorServiceMock.findById(100L);
     }
 
@@ -95,7 +108,7 @@ public class AuthorServiceImplTest {
         authorServiceMock.deleteAuthors();
         assertEquals(0,authorServiceMock.getAllAuthors().size());
         when(authorRepository.getAuthorEntityById(1L)).thenThrow(new EntityNotFound("Author not found (id:"+1L+")"));
-        authorServiceMock.findById(1L);
+            authorServiceMock.findById(1L);
     }
 
     @Test
@@ -114,4 +127,6 @@ public class AuthorServiceImplTest {
         AuthorDto authorDto= authorServiceMock.updateAuthorById(authorInput,5L);
         assertEquals("AsimUpdate", authorDto.getName());
     }
+
+
 }
