@@ -62,8 +62,6 @@ public class AuthorServiceImplTest {
         when(authorRepository.getAuthorEntityById(1L)).thenReturn(Optional.of(author1));
         when(authorRepository.getAuthorEntityById(2L)).thenReturn(Optional.of(author2));
         when(authorRepository.getAuthorEntityById(100L)).thenThrow(new EntityNotFound("Author not found (id:"+100L+")"));
-
-
     }
 
     @Test

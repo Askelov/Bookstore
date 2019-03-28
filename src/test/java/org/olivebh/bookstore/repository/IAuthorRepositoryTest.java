@@ -33,11 +33,21 @@ public class IAuthorRepositoryTest {
    @Resource
     private IAuthorRepository authorRepository;
 
+    @Test
+    public void add_authors_then_delete_all(){
+        AuthorEntity author1 = new AuthorEntity(1L, "aske1");
+        AuthorEntity author2 = new AuthorEntity(2L, "aske2");
+        authorRepository.save(author1);
+        authorRepository.save(author2);
+        authorRepository.deleteAll();
+        List<AuthorEntity> authors = authorRepository.findAll();
+        assertEquals(0, authors.size());
+    }
+
    @Test
     public void find_saved_author() {
         AuthorEntity authorEntity = new AuthorEntity(1L, "aske");
         authorRepository.save(authorEntity);
-
         Optional<AuthorEntity> db =authorRepository.findById(1L);
         if(db.isPresent())
         assertEquals("aske", db.get().getName());
@@ -54,16 +64,7 @@ public class IAuthorRepositoryTest {
         assertEquals(1, authors.size());
     }
 
-    @Test
-    public void add_authors_then_delete_all(){
-        AuthorEntity author1 = new AuthorEntity(1L, "aske1");
-        AuthorEntity author2 = new AuthorEntity(2L, "aske2");
-        authorRepository.save(author1);
-        authorRepository.save(author2);
-        authorRepository.deleteAll();
-        List<AuthorEntity> authors = authorRepository.findAll();
-        assertEquals(0, authors.size());
-    }
+
 
     @Test
     public void add_author_then_update(){
