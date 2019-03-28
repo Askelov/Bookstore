@@ -1,10 +1,12 @@
-package org.olivebh.bookstore.service;
+package org.olivebh.bookstore.service.impl;
 
+import org.olivebh.bookstore.exception.EntityAlreadyExist;
 import org.olivebh.bookstore.exception.EntityNotFound;
 import org.olivebh.bookstore.model.AuthorEntity;
 import org.olivebh.bookstore.model.dto.AuthorDto;
 import org.olivebh.bookstore.model.inputEntities.AuthorInput;
 import org.olivebh.bookstore.repository.IAuthorRepository;
+import org.olivebh.bookstore.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AuthorServiceImpl implements AuthorService{
+public class AuthorServiceImpl implements AuthorService {
 
     private IAuthorRepository authorRepository;
 
@@ -28,7 +30,12 @@ public class AuthorServiceImpl implements AuthorService{
 
     @Override
     public AuthorDto save(AuthorDto authorDto){
-        return new AuthorDto(authorRepository.save(authorDto.toPojo()));
+        Optional<AuthorEntity> authorEntityOptional=authorRepository.getAuthorEntityByName(authorDto.getName());
+        if(authorEntityOptional.isPresent()) {
+            throw new EntityAlreadyExist("Author already exist with (id:"+authorEntityOptional.get().getId()+")");
+        }else{
+            return new AuthorDto(authorRepository.save(authorDto.toPojo()));
+        }
     }
 
     @Override
@@ -40,6 +47,16 @@ public class AuthorServiceImpl implements AuthorService{
             throw new EntityNotFound("Author not found (id:"+id+")");
         }
     }
+   /* @Override
+    public Long getIdByName(String nameAuthor){
+        List<AuthorEntity> authors=authorRepository.findAll();
+        for(AuthorEntity author:authors){
+            if(author.getName().equals(nameAuthor)){
+                return author.getId();
+            }
+        }
+        return -1L;
+    }*/
 
     @Override
     public void deleteAuthors(){

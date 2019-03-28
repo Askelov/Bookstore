@@ -1,22 +1,20 @@
 package org.olivebh.bookstore.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "page", schema = "bookstore", catalog = "")
+@Table(name = "page"/*, schema = "bookstore", catalog = ""*/)
 public class PageEntity {
-
 
     private Long id;
     private Integer ordinalNumber;
     private String text;
     private BookEntity book_id;
 
+    //region constructors
     public PageEntity(){
 
     }
@@ -25,7 +23,7 @@ public class PageEntity {
         this.ordinalNumber = ordinalNumber;
         this.text = text;
     }
-
+    //endregion
     //region getters and setters
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,11 +55,19 @@ public class PageEntity {
     public void setText(String text) {
         this.text = text;
     }
+
+    @JsonBackReference
+    @ManyToOne()
+    @JoinColumn(name="book_id")
+    public BookEntity getBook_id() {
+        return book_id;
+    }
+
+    public void setBook_id(BookEntity book_id) {
+        this.book_id = book_id;
+    }
     //endregion
-
-
-
-
+    //region hash and equals
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -77,22 +83,8 @@ public class PageEntity {
     public int hashCode() {
         return Objects.hash(id, ordinalNumber, text, book_id);
     }
-
-
-    //,cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH}
-
-    @JsonBackReference
-
-    @ManyToOne()
-  @JoinColumn(name="book_id")
-    public BookEntity getBook_id() {
-        return book_id;
-    }
-
-    public void setBook_id(BookEntity book_id) {
-        this.book_id = book_id;
-    }
-
+    //endregion
+    //region toString
     @Override
     public String toString() {
         return "PageEntity{" +
@@ -101,4 +93,5 @@ public class PageEntity {
                 ", text='" + text + '\'' +
                 '}';
     }
+    //endregion
 }

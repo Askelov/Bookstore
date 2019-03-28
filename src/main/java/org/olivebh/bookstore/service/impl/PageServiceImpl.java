@@ -1,10 +1,13 @@
-package org.olivebh.bookstore.service;
+package org.olivebh.bookstore.service.impl;
 
 import org.olivebh.bookstore.exception.EntityNotFound;
+import org.olivebh.bookstore.model.BookEntity;
 import org.olivebh.bookstore.model.PageEntity;
 import org.olivebh.bookstore.model.dto.PageDto;
 import org.olivebh.bookstore.model.inputEntities.PageInput;
+import org.olivebh.bookstore.repository.IBookRepository;
 import org.olivebh.bookstore.repository.IPageRepository;
+import org.olivebh.bookstore.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +19,23 @@ import java.util.Optional;
 public class PageServiceImpl implements PageService {
 
     private IPageRepository pageRepository;
+    private IBookRepository bookRepository;
 
     @Autowired
-    public PageServiceImpl(IPageRepository pageRepository) {
+    public PageServiceImpl(IPageRepository pageRepository, IBookRepository bookRepository) {
         this.pageRepository = pageRepository;
+        this.bookRepository = bookRepository;
     }
 
 
     @Override
     public PageDto savePage(PageEntity pageEntity) {
-       return new PageDto(pageRepository.save(pageEntity));
+        Optional<BookEntity> bookEntityOptional=bookRepository.getBookEntityById(pageEntity.getBook_id().getId());
+        if(bookEntityOptional.isPresent()){
+            return new PageDto(pageRepository.save(pageEntity));
+        }else {
+            throw new EntityNotFound("Book not found (id:"+pageEntity.getBook_id().getId()+")");
+        }
     }
 
     @Override
@@ -51,6 +61,15 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
+    public List<PageDto> getPagesByIds(List<Long> ids){
+        ArrayList<PageDto> pages = new ArrayList<>();
+        for(Long id:ids){
+            pages.add(getPageById(id));
+        }
+      return pages;
+    }
+
+    @Override
     public PageDto updatePageById(PageInput input, Long id){
         Optional<PageEntity> pageOptional=pageRepository.getPageEntityById(id);
         if(pageOptional.isPresent()){
@@ -71,6 +90,7 @@ public class PageServiceImpl implements PageService {
     public void deletePages(){
         pageRepository.deleteAll();
     }
+
 
 
 }

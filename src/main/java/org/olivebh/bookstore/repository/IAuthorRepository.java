@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface IAuthorRepository extends JpaRepository<AuthorEntity, Integer> {
+public interface IAuthorRepository extends JpaRepository<AuthorEntity, Long> {
     Optional<AuthorEntity> getAuthorEntityById(Long id);
+    Optional<AuthorEntity> getAuthorEntityByName(String name);
 }

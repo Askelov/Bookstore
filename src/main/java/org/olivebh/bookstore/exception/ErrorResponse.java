@@ -4,6 +4,7 @@ public class ErrorResponse {
     private int status;
     private String message;
     private long timeStamp;
+
     //region construcotrs
     public ErrorResponse(int status, String message, long timeStamp) {
         this.status = status;

@@ -8,13 +8,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-//@Data
 
 @Entity
-@Table(name = "book", schema = "bookstore")
+@Table(name = "book"/*, schema = "bookstore"*/)
 public class BookEntity {
 
     private Long id;
@@ -23,7 +20,8 @@ public class BookEntity {
     private List<AuthorEntity> authors;
     private List<PageEntity> pages;
 
-    //region constructors
+
+    //region constructors ?ask for lombook
     public BookEntity(){
 
     }
@@ -43,8 +41,8 @@ public class BookEntity {
         this.title = title;
         this.genre = genre;
     }
-    //endregion
-
+    //endregion sad
+    //region getters and setters with annotation
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -76,23 +74,8 @@ public class BookEntity {
         this.genre = genre;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BookEntity that = (BookEntity) o;
-        return id == that.id &&
-                Objects.equals(title, that.title) &&
-                Objects.equals(genre, that.genre);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, genre);
-    }
-
     //@JsonManagedReference
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(name="book_author_relation",
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
@@ -113,8 +96,24 @@ public class BookEntity {
     public void setPages(List<PageEntity> pages) {
         this.pages = pages;
     }
+    //endregion
+    //region hash and equals
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookEntity that = (BookEntity) o;
+        return id == that.id &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(genre, that.genre);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, genre);
+    }
+    //endregion
+    //region toString and other methods
     @Override
     public String toString() {
         return "BookEntity{" +
@@ -136,4 +135,5 @@ public class BookEntity {
         }
         authors.add(authorEntity);
     }
+    //endregion
 }
